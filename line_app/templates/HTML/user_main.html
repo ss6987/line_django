@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.username }}のページ</title>
+</head>
+<body>
+<h1>{{ user.username }}</h1>
+<a href="{% url "logout" %}">ログアウト</a>
+
+<h2>友達</h2>
+{% for follower in user.get_followers %}
+    <div>
+        {{ follower }}
+        <form action="{% url "main" %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_friend">
+            <input type="hidden" name="target_name" value="{{ follower }}">
+            <input type="submit" value="友達から削除">
+        </form>
+    </div>
+{% endfor %}
+<h2>それ以外</h2>
+{% for other in others %}
+    <div>
+        {{ other }}
+        <form action="{% url "main" %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_friend">
+            <input type="hidden" name="target_name" value="{{ other }}">
+            <input type="submit" value="友達に追加">
+        </form>
+    </div>
+{% endfor %}
+</body>
+</html>
