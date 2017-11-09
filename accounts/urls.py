@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^login/$', login,
         {'template_name': 'accounts/login.html'},
         name='login'),
-    url(r'^logout/$', logout,{
+    url(r'^logout/$', logout, {
         "next_page": reverse_lazy("main")
     }, name='logout')
 ]

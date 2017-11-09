@@ -7,7 +7,12 @@
 <body>
 <h1>{{ user.username }}</h1>
 <a href="{% url "logout" %}">ログアウト</a>
-
+<h2>トーク</h2>
+{% for room in rooms %}
+    <div>
+        <a href="{% url 'talk' room.0.id %}">{{ room.1 }}</a>
+    </div>
+{% endfor %}
 <h2>友達</h2>
 {% for follower in user.get_followers %}
     <div>

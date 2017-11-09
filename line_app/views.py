@@ -26,6 +26,12 @@ class MainView(TemplateView):
         for friend in login_user.get_followers():
             users = users.filter(~Q(username=friend.username))
         context['others'] = users
+        rooms = login_user.get_rooms()
+        room_names = login_user.get_room_names()
+        user_rooms = []
+        for i in range(len(room_names)):
+            user_rooms.append([rooms[i],room_names[i]])
+        context['rooms'] = user_rooms
         return context
 
     def post(self,request,*args,**kwargs):
