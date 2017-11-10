@@ -19,6 +19,12 @@
         {{ follower }}
         <form action="{% url "main" %}" method="post">
             {% csrf_token %}
+            <input type="hidden" name="action" value="create_room">
+            <input type="hidden" name="target_name" value="{{ follower }}">
+            <input type="submit" value="トーク">
+        </form>
+        <form action="{% url "main" %}" method="post">
+            {% csrf_token %}
             <input type="hidden" name="action" value="delete_friend">
             <input type="hidden" name="target_name" value="{{ follower }}">
             <input type="submit" value="友達から削除">

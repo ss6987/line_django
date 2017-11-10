@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for talk in talks %}
+    <div>
+        {{ talk.user.username }}:{{ talk.text }}:{{ talk.timestamp }}
+    </div>
+{% endfor %}
+<form action="{% url "talk" room_id %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="text">
+    <input type="submit" value="送信">
+</form>
+</body>
+</html>

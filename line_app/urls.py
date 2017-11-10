@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from line_app.views import SampleTemplateView, MainView
+from line_app.views import SampleTemplateView, MainView,TalkView
 
 urlpatterns = [
-    url(r'talk/(?P<room_id>\d+)/$', SampleTemplateView.as_view(), name='talk'),
+    url(r'talk/(?P<room_id>\d+)/$', TalkView.as_view(), name='talk'),
     url(r'', MainView.as_view(), name='main'),
     url(r'accounts/', include('accounts.urls'), name="logout"),
 ]
