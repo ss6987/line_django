@@ -17,8 +17,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib.auth.views import login, logout
 from django.urls import reverse_lazy
+from . import views
 
 urlpatterns = [
+    url(r'^create/$',views.CreateUserView.as_view(),name='create'),
     url(r'^login/$', login,
         {'template_name': 'accounts/login.html'},
         name='login'),

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
@@ -36,25 +36,28 @@ class MainView(TemplateView):
     def post(self, request, *args, **kwargs):
         action = request.POST["action"]
         login_user = User.objects.get(username=self.request.user.username)
-        target_name = request.POST["target_name"]
-        target_user = User.objects.get(username=target_name)
-        if action == "add_friend":
-            relationship = Relationship(follow=login_user, follower=target_user)
-            relationship.save()
-        elif action == "delete_friend":
-            relationship = Relationship.objects.all().filter(follow=login_user).filter(follower=target_user)
-            relationship.delete()
-        elif action == "create_room":
-            room = Room.objects.filter(Q(user__in=[login_user]) and Q(user__in=[target_user]))
-            if not room.exists():
-                room = Room()
-                room.save()
-                room.user.add(login_user)
-                room.user.add(target_user)
-                room.save()
-                return redirect("talk",room_id=room.id)
-            else:
-                return redirect("talk",room_id=room.first().id)
+        if "friend" in action or "create_room" in action:
+            target_name = request.POST["target_name"]
+            target_user = User.objects.get(username=target_name)
+            if action == "add_friend":
+                relationship = Relationship(follow=login_user, follower=target_user)
+                relationship.save()
+            elif action == "delete_friend":
+                relationship = Relationship.objects.all().filter(follow=login_user).filter(follower=target_user)
+                relationship.delete()
+            elif action == "create_room":
+                room = Room.objects.filter(Q(user__in=[login_user]) and Q(user__in=[target_user]))
+                if not room.exists():
+                    room = Room()
+                    room.save()
+                    room.user.add(login_user)
+                    room.user.add(target_user)
+                    room.save()
+                    return redirect("talk", room_id=room.id)
+                else:
+                    return redirect("talk", room_id=room.first().id)
+        elif action == "delete_room":
+            Room.objects.filter(id=request.POST["room_id"]).delete()
         context = self.get_context_data()
         return render(request, self.template_name, context)
 

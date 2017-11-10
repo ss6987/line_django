@@ -12,6 +12,12 @@
     <div>
         <a href="{% url 'talk' room.0.id %}">{{ room.1 }}</a>
     </div>
+    <form action="{% url "main" %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_room">
+            <input type="hidden" name="room_id" value="{{ room.0.id }}">
+            <input type="submit" value="削除">
+        </form>
 {% endfor %}
 <h2>友達</h2>
 {% for follower in user.get_followers %}
